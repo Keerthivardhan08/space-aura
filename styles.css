@@ -3265,3 +3265,312 @@ body.nasa-game-theme {
   color: #fff !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
 }
+
+
+/* ===================================================================
+   3D REVOLVING SOLAR SYSTEM BACKGROUND & HERO LANDING SECTION
+   Inspired by Astra Nexus & NASA Space Apps Challenge 2026
+   =================================================================== */
+
+.bg-solar-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: auto;
+  overflow: hidden;
+  transition: opacity 0.5s ease;
+}
+
+#bg-solar-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#screen-campaign {
+  background: transparent !important;
+  position: relative;
+  z-index: 2;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+}
+
+.hero-landing-section {
+  position: relative;
+  min-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 30px 24px;
+}
+
+.hero-hud {
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+}
+
+.hero-hud-tl {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.hero-hud-tr {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #f59e0b;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #f59e0b;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: pulse-glow 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.hero-hud-bl {
+  position: absolute;
+  bottom: 8px;
+  left: 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.hero-hud-br {
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #38bdf8;
+}
+
+.hero-center-box {
+  position: relative;
+  z-index: 3;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.hero-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #c9d6f2;
+  margin-bottom: 8px;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.hero-mega-logo {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 900;
+  font-size: clamp(52px, 12vw, 136px);
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 52%, #64748b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 12px 48px rgba(0, 0, 0, 0.85));
+  margin: 10px 0 12px 0;
+}
+
+.hero-subversion {
+  color: #f97316;
+  font-weight: 800;
+  -webkit-text-fill-color: #f97316;
+  filter: drop-shadow(0 0 24px rgba(249, 115, 22, 0.7));
+  margin-left: 6px;
+}
+
+.hero-collective-tag {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  margin-bottom: 6px;
+}
+
+.hero-tagline-desc {
+  font-size: clamp(14px, 2vw, 18px);
+  color: #cbd5e1;
+  font-style: italic;
+  max-width: 680px;
+  margin: 0 auto 26px auto;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Destination Pills */
+.hero-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 900px;
+  margin: 0 auto 28px auto;
+}
+
+.hero-planet-pill {
+  background: rgba(10, 15, 29, 0.72);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.22s ease;
+}
+
+.hero-planet-pill:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+}
+
+.hero-planet-pill.active {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.38), rgba(2, 132, 199, 0.55));
+  border-color: #38bdf8;
+  color: #fff;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+}
+
+/* Action Buttons */
+.hero-actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-enter-btn {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.28), rgba(234, 88, 12, 0.45));
+  border: 2px solid #f97316;
+  border-radius: 9999px;
+  color: #fff;
+  padding: 14px 34px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 0 35px rgba(249, 115, 22, 0.45);
+  transition: all 0.25s ease;
+}
+
+.hero-enter-btn kbd {
+  background: #f97316;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.hero-enter-btn:hover {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.55), rgba(234, 88, 12, 0.75));
+  transform: scale(1.04);
+  box-shadow: 0 0 50px rgba(249, 115, 22, 0.75);
+}
+
+.hero-quick-btn {
+  background: rgba(10, 15, 29, 0.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  padding: 13px 22px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hero-quick-btn.play-cta {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.5));
+  border-color: #10b981;
+  color: #fff;
+}
+
+.hero-quick-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  color: #fff;
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
+}
+
+.hero-quick-btn.play-cta:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(5, 150, 105, 0.7));
+  border-color: #34d399;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
+}
+
+/* Missions Container & Glassmorphism */
+.campaign-missions-container {
+  margin-top: 20px;
+  padding: 30px 24px 60px 24px;
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.35) 0%, rgba(3, 7, 18, 0.9) 100%);
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.campaign-grid .level-card {
+  background: rgba(10, 15, 29, 0.82) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+.campaign-grid .level-card:hover {
+  border-color: #38bdf8 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 36px rgba(56, 189, 248, 0.3) !important;
+}

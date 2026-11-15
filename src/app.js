@@ -13,6 +13,7 @@ import { LAUNCH_STATIONS, LAUNCH_VEHICLES, TARGET_ORBITS, BUS_PLATFORMS, SCIENTI
 import * as physics from './engine/physics.js';
 import { sound } from './engine/audio.js';
 import { getPartBlueprintSVG } from './views/partBlueprints.js';
+import { SolarBackground3D } from './engine/solarBackground3D.js';
 
 export const CATALOG = {
   launchStations: LAUNCH_STATIONS,
@@ -33,6 +34,8 @@ class AstroForgeGame {
     this.hangar = null;
     this.flightArena = null;
     this.missionDesignLab = null;
+    this.solarBg = null;
+    this.heroStartTime = performance.now();
 
     this.activeScreen = 'screen-campaign';
     this.activeSocketTab = 'sensor';
@@ -54,6 +57,11 @@ class AstroForgeGame {
   }
 
   initAudioAndCanvas() {
+    const bgSolarCanvas = document.getElementById('bg-solar-canvas');
+    if (bgSolarCanvas) {
+      this.solarBg = new SolarBackground3D(bgSolarCanvas);
+    }
+
     const hangarCanvas = document.getElementById('hangar-canvas');
     if (hangarCanvas) {
       this.hangar = new AssemblyHangar3D(hangarCanvas, (loadout) => {
@@ -163,11 +171,63 @@ class AstroForgeGame {
   }
 
   bindGlobalNavigation() {
+    // Hero Planet Destination Pills (Orbital Sunrise & Revolving Solar System)
+    document.querySelectorAll('.hero-planet-pill').forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        const mode = e.currentTarget.dataset.mode;
+        document.querySelectorAll('.hero-planet-pill').forEach(p => p.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        if (this.solarBg) {
+          this.solarBg.setViewMode(mode);
+        }
+        const indicator = document.getElementById('hero-view-indicator');
+        if (indicator) {
+          indicator.textContent = mode === 'sunrise' ? 'ORBITAL SUNRISE' :
+                                  mode === 'orrery' ? 'REVOLVING SOLAR SYSTEM' :
+                                  mode.toUpperCase();
+        }
+        sound.playTelemetryPing();
+      });
+    });
+
+    // Enter Mission Control button (Smoothly scrolls to campaign missions)
+    document.getElementById('hero-enter-mission-btn')?.addEventListener('click', () => {
+      sound.playTelemetryPing();
+      const missionsSec = document.getElementById('campaign-missions-container');
+      if (missionsSec) {
+        missionsSec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
     // Quick Play Buttons (Directly jumps into arcade flight!)
     document.getElementById('hero-play-btn')?.addEventListener('click', () => {
       this.gameManager.selectLevel(0); // Mission 1
       this.startFlightMission();
     });
+
+    // Hero Quick MDL & Hangar triggers
+    document.getElementById('hero-open-mdl-btn')?.addEventListener('click', () => {
+      this.showScreen('screen-mdl');
+      sound.playTelemetryPing();
+      if (this.missionDesignLab) this.missionDesignLab.render();
+    });
+
+    document.getElementById('hero-open-hangar-btn')?.addEventListener('click', () => {
+      this.showScreen('screen-assembly');
+      sound.playTelemetryPing();
+    });
+
+    // Real-time Hero HUD Clock (T+ 00:00:00)
+    setInterval(() => {
+      const clockEl = document.getElementById('hero-clock');
+      if (clockEl) {
+        const sec = Math.floor((performance.now() - this.heroStartTime) / 1000);
+        const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        clockEl.textContent = `T+ ${hrs}:${mins}:${s}`;
+      }
+    }, 500);
 
     document.getElementById('nav-quick-play-btn')?.addEventListener('click', () => {
       this.startFlightMission();
@@ -407,14 +467,24 @@ class AstroForgeGame {
     document.querySelectorAll('.game-screen').forEach(s => s.classList.add('hidden'));
     document.getElementById(screenId)?.classList.remove('hidden');
 
+    const bgSolarContainer = document.getElementById('bg-solar-container');
+
     document.querySelectorAll('.nav-hud-btn').forEach(b => b.classList.remove('active'));
-    if (screenId === 'screen-campaign') document.getElementById('nav-campaign-btn')?.classList.add('active');
+    if (screenId === 'screen-campaign') {
+      document.getElementById('nav-campaign-btn')?.classList.add('active');
+      if (bgSolarContainer) bgSolarContainer.style.display = 'block';
+      if (this.solarBg) this.solarBg.start();
+    }
     if (screenId === 'screen-mdl') {
       document.getElementById('nav-mdl-btn')?.classList.add('active');
       if (this.missionDesignLab) this.missionDesignLab.render();
+      if (bgSolarContainer) bgSolarContainer.style.display = 'block';
+      if (this.solarBg) this.solarBg.start();
     }
     if (screenId === 'screen-assembly') {
       document.getElementById('nav-hangar-btn')?.classList.add('active');
+      if (bgSolarContainer) bgSolarContainer.style.display = 'none';
+      if (this.solarBg) this.solarBg.stop();
       if (this.hangar) {
         setTimeout(() => {
           this.hangar.resize();
@@ -424,8 +494,12 @@ class AstroForgeGame {
         }, 50);
       }
     }
-    if (screenId === 'screen-flight' && this.flightArena) {
-      setTimeout(() => this.flightArena.resize(), 50);
+    if (screenId === 'screen-flight') {
+      if (bgSolarContainer) bgSolarContainer.style.display = 'none';
+      if (this.solarBg) this.solarBg.stop();
+      if (this.flightArena) {
+        setTimeout(() => this.flightArena.resize(), 50);
+      }
     }
   }
 

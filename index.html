@@ -12,10 +12,15 @@
     }
   }
   </script>
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=16">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body class="nasa-game-theme">
+
+  <!-- 3D REVOLVING SOLAR SYSTEM BACKGROUND CANVAS -->
+  <div id="bg-solar-container" class="bg-solar-container">
+    <canvas id="bg-solar-canvas"></canvas>
+  </div>
 
   <!-- TOP GAME HUD HEADER -->
   <header class="game-top-bar">
@@ -63,25 +68,63 @@
 
     <!-- ==================== SCREEN 1: CAMPAIGN LEVEL SELECTOR ==================== -->
     <section id="screen-campaign" class="game-screen">
-      <!-- HERO QUICK PLAY BANNER -->
-      <div class="hero-play-banner">
-        <button id="hero-play-btn" class="hero-start-btn">
-          <span class="rocket-anim">🚀</span>
-          <div class="hero-btn-text">
-            <span class="hero-main-title">▶ START MISSION 1: NASA-ISRO NISAR (PLAY NOW)</span>
-            <span class="hero-sub-title">Direct Flight Controls • Steer with [A/D] • Thrust with [W] • Scan with [SPACE]</span>
+      <!-- HERO LANDING SECTION (ASTRA NEXUS / ORBITAL SUNRISE STYLE) -->
+      <div class="hero-landing-section">
+        <!-- CORNER HUD BRACKETS & TELEMETRY -->
+        <div class="hero-hud" aria-hidden="true">
+          <div class="hero-hud-tl"><b>ASTROFORGE // 2026</b> · MISSION COLLECTIVE</div>
+          <div class="hero-hud-tr"><span class="pulse-dot"></span> <span id="hero-view-indicator">ORBITAL SUNRISE</span> · 3D SOLAR SYSTEM</div>
+          <div class="hero-hud-bl">CREW · SNEHA · KARISHMA · ANTTARIKSHA · KSHITIJ</div>
+          <div class="hero-hud-br" id="hero-clock">T+ 00:00:00</div>
+        </div>
+
+        <div class="hero-center-box">
+          <p class="hero-kicker">NASA SPACE APPS CHALLENGE 2026</p>
+          <h1 class="hero-mega-logo">ASTROFORGE<span class="hero-subversion">//2026</span></h1>
+          <p class="hero-collective-tag">THE MISSION COLLECTIVE</p>
+          <p class="hero-tagline-desc">Six frontiers. One Forge. Plan, Assemble, and Pilot NASA & ISRO Flagships.</p>
+
+          <!-- 3D SOLAR SYSTEM DESTINATION PILLS -->
+          <div class="hero-pills-row" id="hero-planet-pills">
+            <button class="hero-planet-pill active" data-mode="sunrise"><span style="color:#f59e0b">🌅</span> ORBITAL SUNRISE</button>
+            <button class="hero-planet-pill" data-mode="orrery"><span style="color:#38bdf8">🪐</span> REVOLVING SOLAR SYSTEM</button>
+            <button class="hero-planet-pill" data-mode="earth"><span style="color:#38bdf8">🔵</span> NISAR Earth</button>
+            <button class="hero-planet-pill" data-mode="moon"><span style="color:#cbd5e1">🟣</span> CHANDRAYAAN-3 Moon</button>
+            <button class="hero-planet-pill" data-mode="mars"><span style="color:#f97316">🔴</span> MANGALYAAN Mars</button>
+            <button class="hero-planet-pill" data-mode="sun"><span style="color:#fbbf24">☀️</span> PARKER Sun</button>
+            <button class="hero-planet-pill" data-mode="jupiter"><span style="color:#f59e0b">🟡</span> JUPITER & MOONS</button>
+            <button class="hero-planet-pill" data-mode="saturn"><span style="color:#eab308">🪐</span> SATURN RINGS</button>
           </div>
-          <span class="play-arrow">▶</span>
-        </button>
+
+          <!-- PRIMARY ACTION BUTTONS -->
+          <div class="hero-actions-group">
+            <button id="hero-enter-mission-btn" class="hero-enter-btn">
+              <span>ENTER MISSION CONTROL</span>
+              <kbd>↵</kbd>
+            </button>
+            <button id="hero-play-btn" class="hero-quick-btn play-cta">
+              <span>🚀 PLAY MISSION 1 (60 FPS)</span>
+            </button>
+            <button id="hero-open-mdl-btn" class="hero-quick-btn">
+              <span>👥 4-PLAYER MISSION LAB</span>
+            </button>
+            <button id="hero-open-hangar-btn" class="hero-quick-btn">
+              <span>🛠️ ASSEMBLE SHIP</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="screen-title-banner">
-        <h2>ORBITAL FLIGHT CAMPAIGN: SELECT MISSION</h2>
-        <p>Complete objectives, scan planet hotspots, survive solar eclipses, and earn 3 Stars (★ ★ ★)!</p>
-      </div>
+      <!-- MISSIONS SECTION WITH GLASSMORPHIC CARDS -->
+      <div id="campaign-missions-container" class="campaign-missions-container">
+        <div class="screen-title-banner">
+          <h2>ORBITAL FLIGHT CAMPAIGN: SELECT MISSION</h2>
+          <p>Complete objectives, scan planet hotspots, survive solar eclipses, and earn 3 Stars (★ ★ ★)!</p>
+        </div>
 
-      <div id="campaign-missions-grid" class="campaign-grid">
-        <!-- Level cards populated dynamically by app.js -->
+        <div id="campaign-missions-grid" class="campaign-grid">
+          <!-- Level cards populated dynamically by app.js -->
+        </div>
       </div>
     </section>
 
@@ -483,6 +526,6 @@
   </div>
 
   <!-- APPLICATION ENTRY SCRIPT -->
-  <script type="module" src="src/app.js?v=14"></script>
+  <script type="module" src="src/app.js?v=16"></script>
 </body>
 </html>
