@@ -341,8 +341,8 @@
           </div>
         </div>
         <div class="img-showcase-box">
-          <img src="presentation_assets/slide1_hero_cockpit.png" alt="3D Orbital Flight Cockpit">
-          <div class="img-caption">Figure 1.1: Live 60 FPS Cockpit Visor HUD with Photorealistic 3D Earth, Solar Alignment & Swath Tracker</div>
+          <img src="presentation_assets/slide1_orbital_sunrise_hero.png" alt="3D Orbital Sunrise Hero View">
+          <div class="img-caption">Figure 1.1: Live Main Webpage — Astra Nexus-Style 3D Orbital Sunrise, Tactical Corner HUD & Mission Destination Pills</div>
         </div>
       </div>
     </section>
@@ -350,27 +350,39 @@
     <!-- ==================== SLIDE 2 ==================== -->
     <section class="slide" data-slide="2">
       <div class="slide-header">
-        <div class="slide-category">Challenge Objective & Architecture</div>
-        <h1 class="slide-title">Mission Design Lab: 4-Player Collaborative Engineering</h1>
-        <p class="slide-subtitle">Empowering teams to solve authentic trade-offs under rigid physical and fiscal constraints.</p>
+        <div class="slide-category">Heliocentric Celestial Mechanics // Slide 02</div>
+        <h1 class="slide-title">Full 3D Revolving Solar System & Celestial Orrery</h1>
+        <p class="slide-subtitle">Simulating Keplerian planetary orbits, dynamic solar coronal shaders, asteroid belt, and real-time planetary focus.</p>
       </div>
       <div class="slide-body-split">
         <div class="info-card">
-          <h3>THE PROBLEM & OUR COLLABORATIVE SOLUTION</h3>
+          <h3>PLANETARY MECHANICS & CELESTIAL ARCHITECTURE</h3>
           <ul class="info-list">
-            <li><strong>The Problem:</strong> Traditional space education isolates students into dry formulas or unrealistic fantasy games that ignore launch vehicle mass limits and power budgets.</li>
-            <li><strong>4-Player Collaborative Roles:</strong> Real space missions require interdisciplinary teamwork. ASTROFORGE implements 4 distinct seats:
-              <br>• <strong>Mission Commander:</strong> Budget ($32M–$180M), timeline & charter objectives.
-              <br>• <strong>Flight Dynamics Officer:</strong> Launch vehicle selection, spaceport latitude & orbital inclination.
-              <br>• <strong>Systems Engineer:</strong> Mass margins, solar panel wattage & battery depth of discharge.
-              <br>• <strong>Science Payload Director:</strong> Sensor selection (SAR radar, coronagraph, spectrometer).
+            <li><strong>1. Dynamic Coronal Noise Shader (The Sun):</strong>
+              <br>• Animated Fractional Brownian Motion (FBM) noise simulating solar convection granules, CME flares, and limb darkening.
+              <br>• High-intensity omnidirectional PointLight (3,500 range) illuminating all planetary bodies.
             </li>
-            <li><strong>Dynamic Constraint Evaluation:</strong> Real-time feedback on Mass Margin (kg), Power Balance (W vs solar flux), and Link Budget. Launches are locked until all constraints evaluate positive!</li>
+            <li><strong>2. All 8 Orbiting Planets + Moons (Kepler's 3rd Law):</strong>
+              <br>• Semi-major axis & period relation: T² ∝ a³. Mercury, Venus, Earth with orbiting Moon, Mars, Jupiter with Galilean moons, Saturn with 3D tilted rings, Uranus, and Neptune.
+              <br>• Luminous anti-aliased Keplerian orbit track loops showing true orbital inclination and geometry.
+            </li>
+            <li><strong>3. Main Asteroid Belt (2,200 Revolving Rocks):</strong>
+              <br>• Toroidal belt particles drifting between Mars (1.52 AU) and Jupiter (5.2 AU) with dwarf planet Ceres.
+            </li>
+            <li><strong>4. Interactive 1-Click Camera Focus (Smooth Lerp):</strong>
+              <br>• Click any destination pill to smoothly glide camera into orbit around Saturn's rings, Mars, Moon, or return to the Earth orbital sunrise!
+            </li>
           </ul>
         </div>
-        <div class="img-showcase-box">
-          <img src="presentation_assets/slide2_mission_design_lab.png" alt="NASA Mission Design Lab">
-          <div class="img-caption">Figure 2.1: NASA Mission Design Lab (MDL) 4-Player Console with Real-Time Constraint Verification</div>
+        <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
+          <div class="img-showcase-box" style="flex:1;">
+            <img src="presentation_assets/slide2_solar_system_orrery.png" alt="3D Revolving Solar System Orrery">
+            <div class="img-caption">Figure 2.1: Full 3D Revolving Solar System with Orbit Tracks, Coronal Noise Sun & Asteroid Belt</div>
+          </div>
+          <div class="img-showcase-box" style="flex:1;">
+            <img src="presentation_assets/slide7_saturn_rings_mission.png" alt="Saturn 3D Rings & Titan Focus">
+            <div class="img-caption">Figure 2.2: 1-Click Smooth Camera Glide to Saturn's 3D Tilted Ring System & Titan Moon</div>
+          </div>
         </div>
       </div>
     </section>
@@ -378,7 +390,37 @@
     <!-- ==================== SLIDE 3 ==================== -->
     <section class="slide" data-slide="3">
       <div class="slide-header">
-        <div class="slide-category">Propulsion & Staging Dynamics</div>
+        <div class="slide-category">Concurrent Engineering & Cooperative Architecture // Slide 03</div>
+        <h1 class="slide-title">Mission Design Lab: 4-Player Collaborative Systems Engineering</h1>
+        <p class="slide-subtitle">Modeled after NASA JPL Team X: Empowering students to resolve authentic mass, power, comms, and budget trade-offs.</p>
+      </div>
+      <div class="slide-body-split">
+        <div class="info-card">
+          <h3>NASA JPL TEAM X CONCURRENT DESIGN METHODOLOGY</h3>
+          <ul class="info-list">
+            <li><strong>4 Specialized Collaborative Roles:</strong> Real space missions require interdisciplinary teamwork. ASTROFORGE implements 4 distinct seats:
+              <br>• <strong>Mission Commander:</strong> Budget ($32M–$180M), timeline & charter objectives.
+              <br>• <strong>Flight Dynamics Officer (FDO):</strong> Launch vehicle selection, spaceport latitude & orbital inclination.
+              <br>• <strong>Systems Engineer:</strong> Mass margins (≥15% required), solar panel wattage & battery depth of discharge (DoD ≤30%).
+              <br>• <strong>Science Payload Director:</strong> Sensor selection (SAR radar, coronagraph, spectrometer).
+            </li>
+            <li><strong>Dynamic Constraint Verification Engine:</strong>
+              <br>• Real-time constraint evaluation on Mass Margin (kg), Power Balance (W vs solar flux), and Link Budget.
+              <br>• Launches are locked until all engineering constraints evaluate positive!
+            </li>
+          </ul>
+        </div>
+        <div class="img-showcase-box">
+          <img src="presentation_assets/slide2_mission_design_lab.png" alt="NASA Mission Design Lab">
+          <div class="img-caption">Figure 3.1: NASA Mission Design Lab (MDL) 4-Player Console with Real-Time Constraint Verification</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 4 ==================== -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-category">Propulsion & Multi-Stage Dispatch // Slide 04</div>
         <h1 class="slide-title">Authentic Launch Vehicles & Rocket Staging Physics</h1>
         <p class="slide-subtitle">Shedding structural dead weight through Tsiolkovsky rocket equation staging lifecycle.</p>
       </div>
@@ -403,35 +445,7 @@
         </div>
         <div class="img-showcase-box">
           <img src="presentation_assets/slide3_rocket_staging.png" alt="Rocket Staging in Hangar">
-          <div class="img-caption">Figure 3.1: Assembly Hangar 3D Rocket Inspection with Staging Indicators & ISRO/NASA Liveries</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== SLIDE 4 ==================== -->
-    <section class="slide" data-slide="4">
-      <div class="slide-header">
-        <div class="slide-category">Astronomical Accuracy & Planetary Cartography</div>
-        <h1 class="slide-title">Photorealistic 3D Earth, Constellations & Orrery</h1>
-        <p class="slide-subtitle">Real continental topography, specular water shaders, night city corridors & true celestial sphere.</p>
-      </div>
-      <div class="slide-body-split">
-        <div class="info-card">
-          <h3>GEOGRAPHIC & CELESTIAL PRECISION</h3>
-          <ul class="info-list">
-            <li><strong>Photorealistic 3D Earth Shader Pipeline:</strong>
-              <br>• <strong>Continental Topography:</strong> Accurate vector polygons for the Indian subcontinent, Sri Lanka, Himalayas, African Rift, Mediterranean, and the Americas.
-              <br>• <strong>Specular Roughness Map:</strong> Realistic water reflections on oceans vs matte dry land.
-              <br>• <strong>Night Lights:</strong> Amber/golden city lights along major urban corridors.
-              <br>• <strong>Atmospheric Scattering:</strong> 23.44° axial tilt + Rayleigh rim sunset glow.
-            </li>
-            <li><strong>12 Real Astronomical Constellations:</strong> Ursa Major, Orion, Cassiopeia, Pegasus, Scorpius mapped using real Right Ascension (RA) and Declination (Dec) coordinates.</li>
-            <li><strong>Full 8-Planet Solar System Orrery:</strong> Press [M] to zoom out to heliocentric view with all 8 planets, Keplerian orbital speeds, and Moons.</li>
-          </ul>
-        </div>
-        <div class="img-showcase-box">
-          <img src="presentation_assets/slide4_photorealistic_earth.png" alt="Photorealistic 3D Earth">
-          <div class="img-caption">Figure 4.1: Photorealistic 3D Earth with High-Res Continents, Atmosphere & Night City Corridors</div>
+          <div class="img-caption">Figure 4.1: Vehicle Assembly Hangar (VAB) 3D Multi-Stage Rocket Inspection with Staging Indicators & ISRO/NASA Liveries</div>
         </div>
       </div>
     </section>
@@ -439,30 +453,33 @@
     <!-- ==================== SLIDE 5 ==================== -->
     <section class="slide" data-slide="5">
       <div class="slide-header">
-        <div class="slide-category">Orbital Operations & Subsystem Telemetry</div>
-        <h1 class="slide-title">Solar Alignment, Laser Downlink & Sensor Swaths</h1>
-        <p class="slide-subtitle">Demystifying photovoltaic cosine efficiency, solid-state buffer flushes, and nadir ground footprints.</p>
+        <div class="slide-category">Graphical Excellence & Planetary Cartography // Slide 05</div>
+        <h1 class="slide-title">NASA 4K Blue Marble Topography & Advanced PBR Shader Pipeline</h1>
+        <p class="slide-subtitle">Matching Astra Nexus clarity: elevation bump relief, ocean specular sheen, nocturnal city lights, and Rayleigh limb glow.</p>
       </div>
       <div class="slide-body-split">
         <div class="info-card">
-          <h3>REAL-WORLD SPACE OPERATIONS EXPLAINED</h3>
+          <h3>PHOTOREALISTIC 3D SHADER ENGINEERING</h3>
           <ul class="info-list">
-            <li><strong>1. Solar Panel Alignment (P = Pmax · cos θ):</strong>
-              <br>• Photovoltaic panels generate power only when facing the Sun. When edge-on or eclipsed in Earth's shadow, generation drops to 0W.
-              <br>• <strong>HUD Solar Compass:</strong> Live flux gauge (e.g. 89% [+213W]). Pressing <strong>[S]</strong> commands ADCS attitude slewing to immediately lock 100% solar flux.
+            <li><strong>1. NASA 4K Blue Marble Topography & Bump Relief:</strong>
+              <br>• SphereGeometry(radius, 192, 128) for ultra-smooth circular planetary limb without faceting.
+              <br>• Integrated NASA elevation relief mapping (bumpScale: 1.6) and roughness/specular ocean reflection maps.
             </li>
-            <li><strong>2. Telemetry Downlinking via Optical Laser:</strong>
-              <br>• Observations accumulate in onboard solid-state buffers (SSDR). Pressing <strong>[T]</strong> emits a radiant data laser beam down to Earth ground stations (ISRO ISTRAC / NASA DSN), earning mission science score!
+            <li><strong>2. Smoothstep Day/Night Terminator Shader:</strong>
+              <br>• Injected custom fragment chunk: dot(normal, lightDir) evaluated across terminator.
+              <br>• smoothstep(0.12, -0.18, nxl) dynamically illuminates nocturnal city lights in warm amber (0xffd59e) with 0 bleeding into daytime.
             </li>
-            <li><strong>3. Nadir Sensor Swath Tracker ('Line-of-Sight Cone'):</strong>
-              <br>• Explains why scans fail when empty: Earth observation instruments look straight down in a conical ground swath.
-              <br>• <strong>Live Swath Tracker:</strong> Tracks upcoming target (e.g. San Andreas Fault) with live distance in km and countdown, pulsing green when in range!
+            <li><strong>3. Rayleigh Atmospheric Scattering Limb Glow:</strong>
+              <br>• Inverted Fresnel BackSide limb glow shader combined with 4 concentric Rayleigh haze shells (r = 1.04 to 1.16).
+            </li>
+            <li><strong>4. Spacecraft PBR Materials:</strong>
+              <br>• Procedural silicon wafer solar cells with micro-busbars, Kapton gold thermal MLI foil, and Lathe parabolic dish antennas.
             </li>
           </ul>
         </div>
         <div class="img-showcase-box">
-          <img src="presentation_assets/slide5_cockpit_subsystems.png" alt="Cockpit Visor HUD Subsystems">
-          <div class="img-caption">Figure 5.1: Cyberpunk Cockpit Visor HUD with Solar Compass, Swath Tracker, Downlink Laser & Bottom Action Dock</div>
+          <img src="presentation_assets/slide5_photorealistic_earth.png" alt="Photorealistic 3D Earth">
+          <div class="img-caption">Figure 5.1: High-Resolution 4K Blue Marble Earth Surface, Smoothstep Night City Lights & Rayleigh Atmospheric Envelope</div>
         </div>
       </div>
     </section>
@@ -470,29 +487,32 @@
     <!-- ==================== SLIDE 6 ==================== -->
     <section class="slide" data-slide="6">
       <div class="slide-header">
-        <div class="slide-category">Space Domain Awareness & Keplerian Dynamics</div>
-        <h1 class="slide-title">Why Satellites Drift, Orbit Lock & Conjunctions</h1>
-        <p class="slide-subtitle">Understanding Keplerian free-fall geodesics, space debris mitigation, and emergency deflector shielding.</p>
+        <div class="slide-category">In-Flight Physics & Space Domain Awareness // Slide 06</div>
+        <h1 class="slide-title">Orbital Cockpit Operations: Solar Alignment, Laser Downlink & Collision Alerts</h1>
+        <p class="slide-subtitle">Demystifying photovoltaic cosine flux, optical telemetry flushes, and real-time space debris conjunction avoidance.</p>
       </div>
       <div class="slide-body-split">
         <div class="info-card">
-          <h3>KEPLERIAN ORBIT DYNAMICS & ORBITAL TRAFFIC</h3>
+          <h3>AUTHENTIC REAL-TIME IN-ORBIT OPERATIONS</h3>
           <ul class="info-list">
-            <li><strong>1. Why Doesn't a Satellite 'Follow the Road'?:</strong>
-              <br>• Satellites coast in free-fall along gravitational geodesics (v = √(GM / r)).
-              <br>• Firing thrusters with <strong>[W]</strong> burns Δv (orbital energy), expanding the semi-major axis away from the nominal path. Inexperienced students learn this first-hand!
-              <br>• <strong>'Orbit Lock' Autopilot [O]:</strong> Cruising autopilot holds nominal green mission path; players can toggle to manual drift anytime.
+            <li><strong>1. Solar Panel Cosine Efficiency (P = Pmax · cos θ):</strong>
+              <br>• Solar wings generate power only when oriented towards the Sun. In eclipse or edge-on, generation drops to 0W.
+              <br>• <strong>HUD Solar Compass:</strong> Real-time readout (e.g. 89% [+213W]). Pressing <strong>[S]</strong> engages ADCS attitude autopilot to lock 100% solar flux.
             </li>
-            <li><strong>2. 3D Satellite Conjunction & Collision System:</strong>
-              <br>• Active 3D satellites in LEO: <strong>IRIDIUM-33</strong>, <strong>COSMOS-2251 Derelict</strong>, <strong>ENVISAT</strong>, <strong>STARLINK-2048</strong> with flashing anti-collision strobes.
-              <br>• <strong>Proximity Klaxon:</strong> Alerts when a satellite closes within 500m.
-              <br>• <strong>Deflector Shield [Q]:</strong> Deflects close approaches with an energy flare (+100 Evasion XP); unshielded impacts inflict -35% hull loss!
+            <li><strong>2. Telemetry Downlinking via High-Frequency Laser:</strong>
+              <br>• Scientific observations fill the onboard Solid-State Data Recorder (SSDR). Pressing <strong>[T]</strong> fires a high-bandwidth cyan data laser to NASA DSN / ISRO ISTRAC ground stations!
+            </li>
+            <li><strong>3. Nadir Sensor Swath Tracker ('Line-of-Sight Cone'):</strong>
+              <br>• Explains why scans fail when empty: Earth observation instruments look straight down in a conical ground swath. Live tracker pulses green when in range!
+            </li>
+            <li><strong>4. 3D Satellite Conjunction & Collision Alerts:</strong>
+              <br>• Active satellites (IRIDIUM-33, COSMOS-2251) with flashing anti-collision strobes. Pressing <strong>[Q]</strong> fires the emergency deflector shield (+100 XP evasion bonus)!
             </li>
           </ul>
         </div>
         <div class="img-showcase-box">
-          <img src="presentation_assets/slide6_orbital_conjunction.png" alt="Orbital Conjunction Alert">
-          <div class="img-caption">Figure 6.1: Close-up 3D Spacecraft Inspection, Flashing Satellite Conjunction Alert & Nighttime City Corridors</div>
+          <img src="presentation_assets/slide6_flight_arena_cockpit.png" alt="60 FPS Flight Cockpit Arena">
+          <div class="img-caption">Figure 6.1: 60 FPS 3D Cockpit Arena with Solar Compass, Swath Distance Tracker, Laser Downlink & Flight Command Bar</div>
         </div>
       </div>
     </section>
@@ -500,8 +520,8 @@
     <!-- ==================== SLIDE 7 ==================== -->
     <section class="slide" data-slide="7">
       <div class="slide-header">
-        <div class="slide-category">Mission Directory & Global Impact</div>
-        <h1 class="slide-title">6 Real Flagship Missions & Permanent Public Access</h1>
+        <div class="slide-category">Mission Directory & Global Impact // Slide 07</div>
+        <h1 class="slide-title">6 Real NASA & ISRO Flagship Campaigns & Permanent Public Access</h1>
         <p class="slide-subtitle">Inspiring the next generation of aerospace engineers through accessible, browser-native space exploration.</p>
       </div>
       <div class="slide-body-split">
@@ -522,8 +542,8 @@
             <li><strong>🌐 Permanent Live URL:</strong> <a href="https://astroforge-mission.surge.sh" target="_blank" style="color:#38bdf8; font-weight:bold;">https://astroforge-mission.surge.sh</a></li>
             <li><strong>⚡ Zero Install / Zero Tunneling:</strong> Pure static ES module architecture served on global CDN edge nodes across 10 global regions.</li>
             <li><strong>🎮 60 FPS WebGL Performance:</strong> Custom procedural geometry, low-overhead Three.js rendering, and audio synthesized via Web Audio API.</li>
+            <li><strong>🐙 GitHub Repository:</strong> <a href="https://github.com/Keerthivardhan08/astroforge" target="_blank" style="color:#38bdf8; font-weight:bold;">https://github.com/Keerthivardhan08/astroforge</a></li>
             <li><strong>🔬 Educational Efficacy:</strong> Students learn systems engineering trade-offs (mass vs power vs budget), orbital velocity equations, and operational procedures.</li>
-            <li><strong>👥 4-Player Teamwork:</strong> Collaborative multiplayer role assignment for team challenges and hackathon judging.</li>
             <li><strong>🏆 Ready for Judging:</strong> Fully functional, complete documentation, git version-controlled, and ready to play right now on any browser or tablet!</li>
           </ul>
         </div>

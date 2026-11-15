@@ -3486,37 +3486,65 @@ body.nasa-game-theme {
 }
 
 .hero-enter-btn {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.28), rgba(234, 88, 12, 0.45));
-  border: 2px solid #f97316;
+  background: rgba(249, 115, 22, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(249, 115, 22, 0.75);
   border-radius: 9999px;
   color: #fff;
-  padding: 14px 34px;
+  padding: 13px 32px;
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 0 35px rgba(249, 115, 22, 0.45);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.35), inset 0 0 16px rgba(249, 115, 22, 0.18);
   transition: all 0.25s ease;
 }
 
-.hero-enter-btn kbd {
+.hero-enter-btn .enter-badge {
   background: #f97316;
-  color: #000;
-  padding: 4px 10px;
-  border-radius: 6px;
+  color: #050a14;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 13px;
   font-weight: 900;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.85);
+  border: none;
 }
 
 .hero-enter-btn:hover {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.55), rgba(234, 88, 12, 0.75));
-  transform: scale(1.04);
-  box-shadow: 0 0 50px rgba(249, 115, 22, 0.75);
+  background: rgba(249, 115, 22, 0.38);
+  border-color: #fb923c;
+  transform: scale(1.03);
+  box-shadow: 0 0 45px rgba(249, 115, 22, 0.65), inset 0 0 22px rgba(249, 115, 22, 0.3);
+}
+
+.pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pill-target {
+  color: #94a3b8;
+  font-weight: normal;
+  margin-left: 2px;
+}
+
+.hud-bracket {
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .hero-quick-btn {

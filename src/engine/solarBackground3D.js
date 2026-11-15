@@ -459,7 +459,7 @@ export class SolarBackground3D {
     const earthGroup = new THREE.Group();
 
     // 1. Earth Surface (NASA 4K Albedo + Elevation Bump + Roughness + City Lights)
-    const earthGeo = new THREE.SphereGeometry(size, 128, 96);
+    const earthGeo = new THREE.SphereGeometry(size, 192, 128);
     const earthMat = new THREE.MeshStandardMaterial({
       roughness: 1.15,
       metalness: 0.08
@@ -519,12 +519,12 @@ export class SolarBackground3D {
       cloudMat.alphaMap = t;
       cloudMat.needsUpdate = true;
     });
-    const cloudMesh = new THREE.Mesh(new THREE.SphereGeometry(size * 1.014, 96, 64), cloudMat);
+    const cloudMesh = new THREE.Mesh(new THREE.SphereGeometry(size * 1.014, 192, 128), cloudMat);
     earthGroup.add(cloudMesh);
     earthGroup.userData.clouds = cloudMesh;
 
     // 3. Rayleigh Atmospheric Limb Glow Shell (Inverted Fresnel)
-    const atmoGeo = new THREE.SphereGeometry(size * 1.045, 96, 64);
+    const atmoGeo = new THREE.SphereGeometry(size * 1.045, 192, 128);
     const atmoMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
@@ -555,7 +555,7 @@ export class SolarBackground3D {
     earthGroup.add(atmoMesh);
 
     // 4. Sunrise Limb Shader (Active during Orbital Sunrise mode)
-    const sunriseGeo = new THREE.SphereGeometry(size * 1.025, 96, 64);
+    const sunriseGeo = new THREE.SphereGeometry(size * 1.025, 192, 128);
     this.sunriseMat = new THREE.ShaderMaterial({
       uniforms: {
         uSunDir: { value: new THREE.Vector3(0, 0, 1) },
@@ -645,27 +645,28 @@ export class SolarBackground3D {
     this.targetViewMode = mode;
 
     if (mode === 'sunrise') {
-      // Orbital Sunrise over Earth's limb
+      // Orbital Sunrise over Earth's limb (clean symmetric Astra Nexus framing)
       const earth = this.bodies.earth;
       if (earth) {
         const earthPos = earth.group.position;
         const R = 1.15;
         const toSun = new THREE.Vector3().subVectors(new THREE.Vector3(0, 0, 0), earthPos).normalize();
         const up = new THREE.Vector3(0, 1, 0);
-        const side = new THREE.Vector3().crossVectors(toSun, up).normalize();
-        const camOffset = toSun.clone().multiplyScalar(-R * 0.45).addScaledVector(up, R * 0.94).addScaledVector(side, R * 0.18);
+        const camOffset = toSun.clone().multiplyScalar(-R * 0.38).addScaledVector(up, R * 0.98);
         this.goalPos.copy(earthPos).add(camOffset);
-        const lookTarget = earthPos.clone().add(toSun.clone().multiplyScalar(R * 14)).addScaledVector(up, R * 0.65);
+        const lookTarget = earthPos.clone().add(toSun.clone().multiplyScalar(R * 16)).addScaledVector(up, R * 0.42);
         this.goalLook.copy(lookTarget);
         this.goalUp.set(0, 1, 0);
       }
       if (this.sunriseMesh) this.sunriseMesh.visible = true;
+      if (this.orbitLines) this.orbitLines.forEach(l => l.material.opacity = 0.0);
     } else if (mode === 'orrery') {
       // Full Solar System Overview
       this.goalPos.set(0, 58, 86);
       this.goalLook.set(0, 0, 0);
       this.goalUp.set(0, 1, 0);
       if (this.sunriseMesh) this.sunriseMesh.visible = false;
+      if (this.orbitLines) this.orbitLines.forEach(l => l.material.opacity = 0.35);
     } else if (this.bodies[mode]) {
       // Focus on specific planet
       const b = this.bodies[mode];
@@ -675,11 +676,13 @@ export class SolarBackground3D {
       this.goalLook.copy(pPos);
       this.goalUp.set(0, 1, 0);
       if (this.sunriseMesh) this.sunriseMesh.visible = false;
+      if (this.orbitLines) this.orbitLines.forEach(l => l.material.opacity = 0.15);
     } else if (mode === 'sun') {
       this.goalPos.set(0, 8, 22);
       this.goalLook.set(0, 0, 0);
       this.goalUp.set(0, 1, 0);
       if (this.sunriseMesh) this.sunriseMesh.visible = false;
+      if (this.orbitLines) this.orbitLines.forEach(l => l.material.opacity = 0.25);
     }
 
     if (immediate) {
@@ -813,10 +816,9 @@ export class SolarBackground3D {
         const R = 1.15;
         const toSun = new THREE.Vector3().subVectors(new THREE.Vector3(0, 0, 0), earthPos).normalize();
         const up = new THREE.Vector3(0, 1, 0);
-        const side = new THREE.Vector3().crossVectors(toSun, up).normalize();
-        const camOffset = toSun.clone().multiplyScalar(-R * 0.45).addScaledVector(up, R * 0.94).addScaledVector(side, R * 0.18);
+        const camOffset = toSun.clone().multiplyScalar(-R * 0.38).addScaledVector(up, R * 0.98);
         this.goalPos.copy(earthPos).add(camOffset);
-        const lookTarget = earthPos.clone().add(toSun.clone().multiplyScalar(R * 14)).addScaledVector(up, R * 0.65);
+        const lookTarget = earthPos.clone().add(toSun.clone().multiplyScalar(R * 16)).addScaledVector(up, R * 0.42);
         this.goalLook.copy(lookTarget);
       }
     } else if (this.bodies[this.viewMode]) {
