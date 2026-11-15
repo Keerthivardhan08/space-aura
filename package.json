@@ -1,0 +1,20 @@
+{
+  "name": "astroforge-space-mission-simulator",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Interactive Space Mission Design & Operations Simulator for NASA Space Apps Challenge 2026",
+  "main": "server.py",
+  "scripts": {
+    "start": "python server.py"
+  },
+  "keywords": [
+    "nasa",
+    "space-apps-challenge-2026",
+    "space-mission-design",
+    "systems-engineering",
+    "orbital-mechanics",
+    "conops"
+  ],
+  "author": "NASA Space Apps Challenge 2026",
+  "license": "MIT"
+}

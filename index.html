@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASTROFORGE | NASA Space Mission Design & 3D Flight Action Game</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./libs/three.module.js",
+      "three/addons/": "./libs/"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+<body class="nasa-game-theme">
+
+  <!-- TOP GAME HUD HEADER -->
+  <header class="game-top-bar">
+    <div class="brand-group">
+      <div class="nasa-insignia">NASA</div>
+      <div class="game-meta">
+        <h1 class="logo-title">ASTROFORGE</h1>
+        <span class="logo-tagline">SPACE MISSION ARCHITECT & FLIGHT COMMANDER</span>
+      </div>
+    </div>
+
+    <!-- PLAYER PROFILE HUD -->
+    <div class="player-profile-hud">
+      <div class="currency-chip">
+        <span class="curr-icon">💰</span>
+        <span id="player-credits" class="curr-val">1,000</span>
+        <span class="curr-label">CREDITS</span>
+      </div>
+      <div class="currency-chip">
+        <span class="curr-icon">⭐</span>
+        <span id="player-stars" class="curr-val">0</span>
+        <span class="curr-label">STARS</span>
+      </div>
+    </div>
+
+    <!-- GLOBAL NAV BUTTONS -->
+    <div class="top-nav-buttons">
+      <button id="nav-quick-play-btn" class="nav-hud-btn play-highlight">🚀 PLAY GAME NOW</button>
+      <button id="nav-mdl-btn" class="nav-hud-btn mdl-highlight">👥 4-PLAYER MISSION LAB</button>
+      <button id="nav-campaign-btn" class="nav-hud-btn active">🗺️ MISSIONS</button>
+      <button id="nav-hangar-btn" class="nav-hud-btn">🛠️ ASSEMBLE SHIP</button>
+      <button id="nav-techtree-btn" class="nav-hud-btn">⚡ TECH TREE</button>
+      <button id="nav-resources-btn" class="nav-hud-btn dim">📚 NASA Resources</button>
+      <button id="nav-sound-btn" class="nav-hud-btn">🔊 SOUND</button>
+    </div>
+  </header>
+
+  <!-- MAIN GAME VIEWPORT -->
+  <main class="game-viewport">
+
+    <!-- ==================== SCREEN: 4-PLAYER CONCURRENT MISSION DESIGN LAB (MDL) ==================== -->
+    <section id="screen-mdl" class="game-screen hidden">
+      <div id="mdl-mount-point"></div>
+    </section>
+
+    <!-- ==================== SCREEN 1: CAMPAIGN LEVEL SELECTOR ==================== -->
+    <section id="screen-campaign" class="game-screen">
+      <!-- HERO QUICK PLAY BANNER -->
+      <div class="hero-play-banner">
+        <button id="hero-play-btn" class="hero-start-btn">
+          <span class="rocket-anim">🚀</span>
+          <div class="hero-btn-text">
+            <span class="hero-main-title">▶ START MISSION 1: NASA-ISRO NISAR (PLAY NOW)</span>
+            <span class="hero-sub-title">Direct Flight Controls • Steer with [A/D] • Thrust with [W] • Scan with [SPACE]</span>
+          </div>
+          <span class="play-arrow">▶</span>
+        </button>
+      </div>
+
+      <div class="screen-title-banner">
+        <h2>ORBITAL FLIGHT CAMPAIGN: SELECT MISSION</h2>
+        <p>Complete objectives, scan planet hotspots, survive solar eclipses, and earn 3 Stars (★ ★ ★)!</p>
+      </div>
+
+      <div id="campaign-missions-grid" class="campaign-grid">
+        <!-- Level cards populated dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 2: VEHICLE ASSEMBLY HANGAR (VAB) ==================== -->
+    <section id="screen-assembly" class="game-screen hidden">
+      <!-- LIVE SYSTEMS ENGINEERING GAUGES -->
+      <div class="vab-telemetry-bar">
+        <div id="gauge-mass" class="vab-gauge"></div>
+        <div id="gauge-power" class="vab-gauge"></div>
+        <div id="gauge-fuel" class="vab-gauge"></div>
+        <div id="gauge-cost" class="vab-gauge"></div>
+        <div id="gauge-science" class="vab-gauge"></div>
+      </div>
+
+      <!-- LIVE NASA CML PROGRESS TRACKER -->
+      <div id="vab-cml-tracker" class="cml-tracker-bar"></div>
+
+      <div class="vab-main-grid">
+        <!-- LEFT: COMPONENT SELECTOR SHELF -->
+        <div class="vab-parts-panel">
+          <div class="vab-socket-tabs" id="vab-socket-tabs">
+            <button class="socket-tab-btn active" data-socket="sensor">🔬 SENSOR</button>
+            <button class="socket-tab-btn" data-socket="power">⚡ POWER</button>
+            <button class="socket-tab-btn" data-socket="engine">🚀 ENGINE</button>
+            <button class="socket-tab-btn" data-socket="comm">📡 ANTENNA</button>
+            <button class="socket-tab-btn" data-socket="bus">🛰️ CHASSIS</button>
+            <button class="socket-tab-btn" data-socket="launcher">🚀 LAUNCHER</button>
+          </div>
+          <div id="vab-parts-shelf" class="vab-parts-list">
+            <!-- Part cards populated dynamically -->
+          </div>
+        </div>
+
+        <!-- RIGHT: INTERACTIVE BLUEPRINT ASSEMBLY CANVAS -->
+        <div class="vab-hangar-panel">
+          <div class="hangar-canvas-box">
+            <button id="hangar-toggle-view-btn" class="hangar-view-toggle-btn" title="Toggle between Satellite subsystem inspection and full Multi-Stage Rocket stack with fairing cutaway">🚀 SWITCH TO LAUNCH VEHICLE ROCKET VIEW</button>
+            <canvas id="hangar-canvas"></canvas>
+            <div class="hangar-overlay-hint">🖱️ DRAG TO ROTATE 360° • SCROLL TO ZOOM • SELECT PART TO ASSEMBLE</div>
+          </div>
+
+          <!-- LAUNCH COMMAND BAR -->
+          <div class="vab-launch-bar">
+            <button id="start-flight-btn" class="vab-launch-btn">
+              <span class="btn-glow-pulse"></span>
+              <span class="launch-btn-icon">🚀</span>
+              <div class="btn-text-block">
+                <span class="btn-headline">LAUNCH 3D MISSION FLIGHT</span>
+                <span class="btn-subheadline">TAKE DIRECT 3D ORBITAL COMMAND</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 3: 60 FPS INTERACTIVE 3D FLIGHT ARENA ==================== -->
+    <section id="screen-flight" class="game-screen hidden">
+      <div class="flight-arena-wrapper">
+        <canvas id="flight-canvas"></canvas>
+
+        <!-- REAL-LIFE GROUND LAUNCH PAD & MULTI-STAGE ASCENT TERMINAL -->
+        <div id="launch-control-overlay" class="launch-control-overlay">
+          <!-- TOP BAR: ASCENT TELEMETRY & SPACEPORT -->
+          <div class="launch-top-bar">
+            <!-- LEFT: REAL-TIME FLIGHT DYNAMICS -->
+            <div class="launch-telemetry-card">
+              <div class="card-tag">🚀 ASCENT FLIGHT DYNAMICS</div>
+              <div class="telemetry-metrics-grid">
+                <div class="metric-item">
+                  <span class="m-lbl">ALTITUDE</span>
+                  <span id="ascent-alt-val" class="m-val highlight">0.0 KM</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-lbl">VELOCITY</span>
+                  <span id="ascent-vel-val" class="m-val">0 M/S (Mach 0.0)</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-lbl">DYNAMIC PRESSURE (Q)</span>
+                  <span id="ascent-q-val" class="m-val">0.0 kPa</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-lbl">VEHICLE WET MASS</span>
+                  <span id="ascent-mass-val" class="m-val">549,054 KG</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-lbl">THRUST-TO-WEIGHT (TWR)</span>
+                  <span id="ascent-twr-val" class="m-val">1.28</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-lbl">DOWNRANGE</span>
+                  <span id="ascent-range-val" class="m-val">0.0 KM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: SPACEPORT SELECTION & QUICK ACTIONS -->
+            <div class="launch-spaceport-card">
+              <div class="card-tag">🌍 LAUNCH STATION / SPACEPORT</div>
+              <div class="spaceport-current-info">
+                <span id="spaceport-name-display" class="spaceport-name">🌴 Kennedy Space Center (LC-39A)</span>
+                <span id="spaceport-coords-display" class="spaceport-coords">Cape Canaveral, FL • 28.57° N • Earth Rotation Boost: +408 m/s</span>
+              </div>
+              <div class="spaceport-actions-row">
+                <button id="btn-select-spaceport" class="btn-spaceport-pick">🌍 CHANGE LAUNCH STATION</button>
+                <button id="btn-skip-to-orbit" class="btn-skip-orbit">⏭️ SKIP DIRECTLY TO ORBIT</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CENTER: MISSION CONTROL STAGING & SEQUENCE TERMINAL -->
+          <div class="launch-staging-terminal">
+            <div id="staging-phase-badge" class="staging-phase-badge">T-MINUS TERMINAL COUNTDOWN</div>
+            <h2 id="staging-status-headline" class="staging-status-headline">READY FOR PAD IGNITION</h2>
+            <p id="staging-guidance-sub" class="staging-guidance-sub">All vehicle systems verified. Ready for automatic terminal countdown poll.</p>
+
+            <!-- INTERACTIVE ACTION BUTTONS (PAD COUNTDOWN, GRAVITY TURN, BOOSTER SEP, FAIRING JETTISON, PAYLOAD SEP) -->
+            <div class="staging-action-dock" id="staging-action-dock">
+              <button id="btn-launch-countdown" class="staging-big-btn primary">
+                🚀 INITIATE TERMINAL COUNTDOWN (T-10s)
+              </button>
+              <button id="btn-launch-autopilot" class="staging-big-btn secondary">
+                🤖 AUTOPILOT LAUNCH & AUTO-STAGING
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPACEPORT SELECTOR MODAL (CLEAN CARDS CATALOG) -->
+        <div id="modal-spaceports" class="game-modal-overlay hidden" style="display: none;" onclick="if(event.target === this) { this.style.display='none'; this.classList.add('hidden'); }">
+          <div class="game-modal-box large">
+            <div class="modal-header">
+              <div>
+                <h3>🌍 SELECT LAUNCH STATION</h3>
+                <p class="modal-sub" style="margin-bottom: 0;">Choose a terrestrial launch complex. Earth rotation bonus applies directly to orbital insertion velocity (v = ω·R·cos θ).</p>
+              </div>
+              <button id="close-spaceports-btn" class="modal-close-btn-prominent" onclick="document.getElementById('modal-spaceports').style.display='none'; document.getElementById('modal-spaceports').classList.add('hidden');">✕ CLOSE & CONFIRM</button>
+            </div>
+
+            <!-- SPACEPORTS CARDS GRID DIRECT VIEW -->
+            <div id="sp-cards-container" class="sp-view-content" style="max-height: 520px; overflow-y: auto;">
+              <div id="spaceports-cards-grid" class="spaceports-cards-grid">
+                <!-- Dynamically populated from LAUNCH_STATIONS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLOATING TOP HUD TELEMETRY OVERLAY -->
+        <div class="flight-hud-overlay">
+          <!-- LEFT: VITAL INSTRUMENTS -->
+          <div class="hud-panel left">
+            <div class="hud-panel-title">🛰️ SPACECRAFT TELEMETRY</div>
+            <div class="hud-gauge-row">
+              <span class="hud-label">BATTERY</span>
+              <div class="hud-bar-track">
+                <div id="hud-battery-bar" class="hud-bar-fill" style="width: 100%; background: #10b981;"></div>
+              </div>
+            </div>
+            <div class="hud-gauge-row">
+              <span class="hud-label">PROPELLANT</span>
+              <div class="hud-bar-track">
+                <div id="hud-fuel-bar" class="hud-bar-fill" style="width: 100%; background: #f59e0b;"></div>
+              </div>
+            </div>
+            <div class="hud-gauge-row">
+              <span class="hud-label">HULL INTEGRITY</span>
+              <div class="hud-bar-track">
+                <div id="hud-hull-bar" class="hud-bar-fill" style="width: 100%; background: #06b6d4;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CENTER: MISSION CLOCK, SOLAR COMPASS & ENVIRONMENTAL STATUS -->
+          <div class="hud-panel center">
+            <div class="hud-timer-box">
+              <span class="hud-timer-label">MISSION CLOCK</span>
+              <span id="hud-timer-val" class="hud-timer-digits">90s</span>
+            </div>
+            <div class="hud-status-chips">
+              <span id="hud-chip-eclipse" class="status-chip">☀️ IN SUNLIGHT (CHARGING)</span>
+              <span id="hud-chip-ground" class="status-chip">📡 DSN DOWNLINK READY</span>
+            </div>
+            <!-- SOLAR PANEL ALIGNMENT COMPASS -->
+            <div id="hud-sun-compass" class="hud-sun-compass">
+              <span class="compass-icon">☀️</span>
+              <span id="hud-sun-angle-txt">SOLAR ALIGNMENT: 95% [MAX POWER]</span>
+            </div>
+            <!-- NADIR SENSOR TARGET SWATH TRACKER -->
+            <div id="hud-swath-tracker" class="hud-swath-tracker">
+              <span class="swath-icon">🎯</span>
+              <span id="hud-swath-text">NEXT TARGET: HIMALAYAS (IN RANGE IN 6s)</span>
+            </div>
+            <div class="hud-altitude-box">
+              ALTITUDE: <strong id="hud-altitude-val">550 KM</strong> (LEO)
+            </div>
+          </div>
+
+          <!-- RIGHT: SCIENCE & DOWNLINK GAUGES -->
+          <div class="hud-panel right">
+            <div class="hud-panel-title">🔬 SCIENCE & COMMS</div>
+            <div class="hud-stat-line">
+              <span>SCIENCE SCORE:</span>
+              <strong id="hud-score-val" style="color: #ec4899;">0 PTS</strong>
+            </div>
+            <div class="hud-stat-line">
+              <span>ONBOARD BUFFER:</span>
+              <strong id="hud-buffer-val" style="color: #38bdf8;">0.0 GB</strong>
+            </div>
+            <div class="hud-stat-line">
+              <span>DOWNLINKED:</span>
+              <strong id="hud-downlinked-val" style="color: #10b981;">0.0 GB</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONJUNCTION COLLISION PROXIMITY ALERT BANNER -->
+        <div id="hud-conjunction-warning" class="conjunction-warning-banner hidden">
+          <div class="conj-icon-col">🚨</div>
+          <div class="conj-text-col">
+            <span class="conj-title">PROXIMITY CONJUNCTION WARNING</span>
+            <span id="conj-details-txt" class="conj-sub">DEFUNCT SATELLITE CLOSING AT 7.8 KM/S! ACTIVATE SHIELD [Q] OR EVASIVE THRUST [W]!</span>
+          </div>
+          <button id="btn-quick-shield" class="conj-evade-btn">ACTIVATE SHIELD [Q]</button>
+        </div>
+
+        <!-- FLOATING MISSION NOTIFICATION BANNER -->
+        <div id="flight-notice-banner" class="flight-notice-banner hidden">
+          MISSION IN PROGRESS
+        </div>
+
+        <!-- SCIENTIFIC RESEARCH DISCOVERY HUD NOTIFICATION -->
+        <div id="scientific-discovery-banner" class="scientific-discovery-card hidden">
+          <div class="disc-header">
+            <span class="disc-badge">🔬 IN-SITU SCIENTIFIC DISCOVERY</span>
+            <span id="disc-target-name" class="disc-target">TARGET BEACON</span>
+          </div>
+          <div id="disc-text" class="disc-text">Scientific research finding and planetary sensor telemetry recorded.</div>
+        </div>
+
+        <!-- SMART AUTOPILOT & CAMERA DOCK (TOP RIGHT) -->
+        <div class="flight-autopilot-dock">
+          <button id="btn-toggle-solar" class="assist-btn special" title="Toggle Grand Solar System Orrery view vs Local orbit [M]">🌌 SOLAR SYSTEM [M]</button>
+          <button id="btn-toggle-constellations" class="assist-btn active" title="Toggle Real Astronomical Constellations & Sky Lines [K]">✨ CONSTELLATIONS [K]</button>
+          <button id="btn-toggle-fleet" class="assist-btn" title="View all launched spacecraft fleet and orbits">🛰️ FLEET (<span id="fleet-count-badge">5</span>)</button>
+          <button id="btn-auto-sun" class="assist-btn" title="Automatically align solar panels to face the sun [S]">☀️ SUN LOCK [S]</button>
+          <button id="btn-auto-orbit" class="assist-btn active" title="Toggle Autopilot Orbit Path Lock [O]">🤖 ORBIT LOCK [O]</button>
+          <button id="btn-camera-toggle" class="assist-btn special" title="Switch between Chase, Orbital, and Cockpit cameras [C]">📷 CAM: CHASE</button>
+          <div class="warp-btn-group">
+            <button class="warp-btn active" data-warp="1">1X</button>
+            <button class="warp-btn" data-warp="2">2X</button>
+            <button class="warp-btn" data-warp="4">4X</button>
+          </div>
+        </div>
+
+        <!-- AAA SCI-FI ARCADE ACTION COMMAND BAR (BOTTOM) -->
+        <div class="flight-onscreen-controls">
+          <!-- NAVIGATION & ZOOM CLUSTER -->
+          <div class="dpad-group">
+            <button id="btn-ctrl-zoom-in" class="game-pad-btn zoom-btn" title="Zoom In closer to spacecraft (Z / Wheel Up)">➕ ZOOM IN [Z]</button>
+            <button id="btn-ctrl-zoom-out" class="game-pad-btn zoom-btn" title="Zoom Out to wide orbit view (X / Wheel Down)">➖ ZOOM OUT [X]</button>
+            <button id="btn-ctrl-left" class="game-pad-btn" title="Rotate Spacecraft Left (A / Left Arrow)">◀ ROTATE [A]</button>
+            <button id="btn-ctrl-thrust" class="game-pad-btn thrust-btn" title="Thrust Main Engine (W / Up Arrow)">▲ THRUST [W]</button>
+            <button id="btn-ctrl-right" class="game-pad-btn" title="Rotate Spacecraft Right (D / Right Arrow)">ROTATE [D] ▶</button>
+          </div>
+
+          <!-- TACTICAL SCIENCE & SUBSYSTEMS CLUSTER -->
+          <div class="action-group">
+            <button id="btn-ctrl-sun-align" class="game-pad-btn sun-align-btn" title="Align Solar Wings to face the Sun (S)">☀️ SUN ALIGN [S]</button>
+            <button id="btn-ctrl-downlink" class="game-pad-btn downlink-btn" title="Downlink Telemetry Data to Earth Ground Station (T)">📡 DOWNLINK [T]</button>
+            <button id="btn-ctrl-autopilot" class="game-pad-btn autopilot-btn" title="Lock spacecraft to nominal orbit trajectory (O)">🤖 ORBIT LOCK [O]</button>
+            <button id="btn-ctrl-shield" class="game-pad-btn shield-btn" title="Activate Deflector Shield against debris & collision (Q)">🛡️ SHIELD [Q]</button>
+            <button id="btn-ctrl-scan" class="game-pad-btn scan-btn" title="Activate Sensor Scan over surface target (SPACEBAR)">🎯 SCAN TARGET [SPACE]</button>
+          </div>
+        </div>
+
+        <!-- KEYBOARD SHORTCUTS HINT BAR -->
+        <div class="flight-keys-hint">
+          <span>[W] Thrust</span> • <span>[A/D] Rotate</span> • <span>[S] Sun Align</span> • <span>[SPACE] Sensor Scan</span> • <span>[T] Downlink Data</span> • <span>[Q] Shield</span> • <span>[O] Orbit Lock</span> • <span>[Z/X] Zoom</span> • <span>[C] Cam</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 4: POST-MISSION VICTORY / DEFEAT ==================== -->
+    <section id="screen-debrief" class="game-screen hidden">
+      <div class="debrief-card-box">
+        <div id="debrief-header-badge" class="debrief-badge">MISSION SUCCESSFUL</div>
+        <h2 id="debrief-mission-title">MISSION COMPLETE</h2>
+
+        <!-- STAR RATING -->
+        <div class="stars-row" id="debrief-stars-row">
+          <span class="star-icon">⭐</span>
+          <span class="star-icon">⭐</span>
+          <span class="star-icon">⭐</span>
+        </div>
+
+        <!-- REWARD STATS -->
+        <div class="debrief-rewards-grid">
+          <div class="rew-box">
+            <span class="rew-label">SCIENCE SCORE</span>
+            <span id="rew-score" class="rew-val" style="color: #ec4899">0 PTS</span>
+          </div>
+          <div class="rew-box">
+            <span class="rew-label">CREDITS EARNED</span>
+            <span id="rew-credits" class="rew-val" style="color: #f59e0b">+0 CR</span>
+          </div>
+          <div class="rew-box">
+            <span class="rew-label">TARGETS SCANNED</span>
+            <span id="rew-targets" class="rew-val" style="color: #38bdf8">0 / 3</span>
+          </div>
+          <div class="rew-box">
+            <span class="rew-label">HULL INTEGRITY</span>
+            <span id="rew-hull" class="rew-val" style="color: #10b981">100%</span>
+          </div>
+        </div>
+
+        <!-- SCIENTIFIC DISCOVERY REPORT -->
+        <div id="debrief-research-box" class="research-report-box hidden">
+          <div class="report-header">
+            <span class="report-chip">🔬 NASA SCIENTIFIC DISCOVERY REPORT</span>
+            <span id="report-hypothesis-status" class="hypothesis-badge">HYPOTHESIS: CONFIRMED (p < 0.001)</span>
+          </div>
+          <h4 id="report-field-title">Earth Environmental Science & Global Carbon Budget</h4>
+          <p id="report-hypothesis-text" class="report-hypothesis">Hypothesis testing results</p>
+          <div class="discoveries-list-title">KEY IN-SITU SCIENTIFIC FINDINGS:</div>
+          <div id="report-discoveries-list" class="report-discoveries-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- REAL NASA ANALOG MISSION (From 'A Learning Game About Telescopes') -->
+        <div class="analog-mission-box">
+          <span class="analog-chip">🛰️ MATCHED REAL NASA MISSION</span>
+          <h4 id="analog-name">James Webb Space Telescope (JWST)</h4>
+          <p id="analog-desc">Premier space observatory observing the universe in infrared light with a 6.5-meter mirror.</p>
+          <div class="analog-meta-row" id="analog-meta">
+            <!-- Real flight specs -->
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="debrief-actions-bar">
+          <button id="debrief-retry-btn" class="debrief-btn secondary">🔄 RETRY MISSION</button>
+          <button id="debrief-techtree-btn" class="debrief-btn secondary">⚡ TECH TREE</button>
+          <button id="debrief-continue-btn" class="debrief-btn primary">CONTINUE TO CAMPAIGN →</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== TECH TREE MODAL ==================== -->
+  <div id="modal-techtree" class="game-modal-overlay hidden" style="display: none;" onclick="if(event.target === this) { this.style.display='none'; this.classList.add('hidden'); }">
+    <div class="game-modal-box">
+      <div class="modal-header">
+        <h3>⚡ ADVANCED PROPULSION & SCIENCE TECH TREE</h3>
+        <button id="close-techtree-btn" class="modal-close" onclick="document.getElementById('modal-techtree').style.display='none'; document.getElementById('modal-techtree').classList.add('hidden');">✕</button>
+      </div>
+      <p class="modal-sub">Spend earned mission credits to unlock next-generation space technology.</p>
+      <div id="techtree-grid" class="techtree-grid">
+        <!-- Tech tree items populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LAUNCHED SPACECRAFT FLEET MODAL ==================== -->
+  <div id="modal-fleet" class="game-modal-overlay hidden" style="display: none;" onclick="if(event.target === this) { this.style.display='none'; this.classList.add('hidden'); }">
+    <div class="game-modal-box large">
+      <div class="modal-header">
+        <div>
+          <h3>🛰️ ACTIVE LAUNCHED SATELLITE FLEET & ORBITAL NETWORK</h3>
+          <p class="modal-sub" style="margin-bottom: 0;">Persistent orbital telemetry, live Keplerian trajectories, and tracking for all agency spacecraft.</p>
+        </div>
+        <button id="close-fleet-btn" class="modal-close-btn-prominent" onclick="document.getElementById('modal-fleet').style.display='none'; document.getElementById('modal-fleet').classList.add('hidden');">✕ CLOSE</button>
+      </div>
+      <div id="fleet-cards-grid" class="fleet-cards-grid" style="max-height: 520px; overflow-y: auto;">
+        <!-- Dynamically populated from active fleet -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== OFFICIAL NASA RESOURCES HUB MODAL ==================== -->
+  <div id="modal-resources" class="game-modal-overlay hidden" style="display: none;" onclick="if(event.target === this) { this.style.display='none'; this.classList.add('hidden'); }">
+    <div class="game-modal-box large">
+      <div class="modal-header">
+        <div>
+          <h3>🛰️ OFFICIAL NASA DATA & CHALLENGE RESOURCES HUB</h3>
+          <p class="modal-sub" style="margin-bottom: 0;">9 official NASA and Canadian Space Agency toolkits & handbooks.</p>
+        </div>
+        <button id="close-resources-btn" class="modal-close-btn-prominent" onclick="document.getElementById('modal-resources').style.display='none'; document.getElementById('modal-resources').classList.add('hidden');">✕ CLOSE & BACK TO GAME</button>
+      </div>
+      <div id="resources-grid" class="resources-hub-grid">
+        <!-- Resources populated dynamically -->
+      </div>
+      <div class="modal-footer-close">
+        <button id="close-resources-bottom-btn" class="modal-close-btn-prominent large" onclick="document.getElementById('modal-resources').style.display='none'; document.getElementById('modal-resources').classList.add('hidden');">✕ CLOSE THIS POPUP & RETURN TO GAME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION ENTRY SCRIPT -->
+  <script type="module" src="src/app.js?v=14"></script>
+</body>
+</html>
