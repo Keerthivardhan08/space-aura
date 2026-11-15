@@ -161,26 +161,40 @@ export class FlightArena3D {
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: false
+      alpha: false,
+      powerPreference: 'high-performance'
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.1;
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x020308);
 
-    this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 2500);
+    // Telephoto Perspective Camera for scale-accurate aerospace clarity
+    this.camera = new THREE.PerspectiveCamera(36, 1, 0.1, 2500);
     this.camera.position.set(0, 8, 20);
 
-    // Deep space ambient fill
-    const ambientLight = new THREE.AmbientLight(0x0f172a, 0.6);
-    this.scene.add(ambientLight);
-
-    // Distant radiant Sun
-    this.sunLight = new THREE.DirectionalLight(0xfffbeb, 2.8);
+    // High-Contrast Cinematic 3-Point Orbital Lighting Rig (matching Astra Nexus clarity)
+    // 1. Warm Key Sun Light
+    this.sunLight = new THREE.DirectionalLight(0xfff4e6, 3.2);
     this.sunLight.position.set(-250, 50, 120);
     this.scene.add(this.sunLight);
+
+    // 2. Cool Blue Earthshine Fill Light (illuminates shadow side of spacecraft with planet glow)
+    this.earthshineLight = new THREE.DirectionalLight(0x7090b8, 0.5);
+    this.earthshineLight.position.set(120, -30, -80);
+    this.scene.add(this.earthshineLight);
+
+    // 3. Limb Rim Light (crisp silhouette definition)
+    const rimLight = new THREE.DirectionalLight(0x4070a0, 0.35);
+    rimLight.position.set(0, 150, -100);
+    this.scene.add(rimLight);
+
+    // 4. Ambient Space Baseline
+    const ambientLight = new THREE.AmbientLight(0x101420, 0.15);
+    this.scene.add(ambientLight);
 
     // Glowing solar corona billboard
     const sunGlowGeo = new THREE.SphereGeometry(15, 16, 16);

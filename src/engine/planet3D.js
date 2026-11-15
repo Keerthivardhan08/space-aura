@@ -18,100 +18,156 @@ export class Planet3DBuilder {
     let cloudsMesh = null;
     let atmosphereMesh = null;
 
+    const textureLoader = new THREE.TextureLoader();
+    const loadTex = (name, srgb = true, fallbackGen = null) => {
+      let t = null;
+      try {
+        t = textureLoader.load(`./textures/${name}`);
+        if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+        t.anisotropy = 8;
+      } catch (err) {
+        if (fallbackGen) t = fallbackGen();
+      }
+      return t;
+    };
+
+    const applyNightSideShader = (mat) => {
+      mat.onBeforeCompile = (shader) => {
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <emissivemap_fragment>',
+          `#include <emissivemap_fragment>
+           float nxl = 1.0;
+           #if NUM_DIR_LIGHTS > 0
+             nxl = dot(normal, directionalLights[0].direction);
+           #elif NUM_POINT_LIGHTS > 0
+             nxl = dot(normal, normalize(pointLights[0].position + vViewPosition));
+           #endif
+           totalEmissiveRadiance *= smoothstep(0.12, -0.18, nxl);`
+        );
+      };
+    };
+
     if (planetType === 'earth') {
-      const earthTex = TextureGenerator.createEarthTexture(2048, 1024);
-      const earthRoughTex = TextureGenerator.createEarthRoughnessMap(2048, 1024);
-      const earthNightTex = TextureGenerator.createEarthNightTexture(1024, 512);
-      const earthGeo = new THREE.SphereGeometry(radius, 64, 64);
+      // 1. High-Density Photorealistic Earth Surface (NASA 4K Blue & Black Marble)
+      const earthGeo = new THREE.SphereGeometry(radius, 192, 128);
       const earthMat = new THREE.MeshStandardMaterial({
-        map: earthTex,
-        roughnessMap: earthRoughTex,
-        roughness: 0.7,
-        metalness: 0.1,
-        emissiveMap: earthNightTex,
-        emissive: 0xffe082,
-        emissiveIntensity: 0.55
+        color: 0xffffff,
+        roughness: 1.25,
+        metalness: 0.04
       });
+
+      earthMat.map = loadTex('earth-day.jpg', true, () => TextureGenerator.createEarthTexture(2048, 1024));
+      earthMat.bumpMap = loadTex('earth-bump.jpg', false);
+      earthMat.bumpScale = 1.6;
+      earthMat.roughnessMap = loadTex('earth-rough.jpg', false, () => TextureGenerator.createEarthRoughnessMap(2048, 1024));
+      earthMat.emissiveMap = loadTex('earth-night.jpg', true, () => TextureGenerator.createEarthNightTexture(1024, 512));
+      earthMat.emissive.setHex(0xffd9a0);
+      earthMat.emissiveIntensity = 1.6;
+      applyNightSideShader(earthMat);
+
       planetMesh = new THREE.Mesh(earthGeo, earthMat);
       planetMesh.name = 'PlanetMesh';
-
-      // Authentic 23.44° Earth Axial Tilt
       planetMesh.rotation.z = THREE.MathUtils.degToRad(23.44);
       group.add(planetMesh);
 
-      // Cloud layer with soft transparency and independent rotation
-      const cloudsTex = TextureGenerator.createCloudsTexture(2048, 1024);
-      const cloudsGeo = new THREE.SphereGeometry(radius * 1.018, 64, 64);
+      // 2. NASA 4K Cloud Transparency Shell with Differential Spin
+      const cloudsGeo = new THREE.SphereGeometry(radius * 1.012, 128, 96);
       const cloudsMat = new THREE.MeshStandardMaterial({
-        map: cloudsTex,
+        color: 0xffffff,
         transparent: true,
-        opacity: 0.82,
-        blending: THREE.NormalBlending,
-        roughness: 0.95
+        opacity: 0.95,
+        depthWrite: false,
+        roughness: 1.0
       });
+      cloudsMat.alphaMap = loadTex('earth-clouds.jpg', false, () => TextureGenerator.createCloudsTexture(2048, 1024));
+
       cloudsMesh = new THREE.Mesh(cloudsGeo, cloudsMat);
       cloudsMesh.name = 'CloudsMesh';
       cloudsMesh.rotation.z = THREE.MathUtils.degToRad(23.44);
       group.add(cloudsMesh);
 
-      // Atmospheric Rayleigh Rim Glow with Sunset Terminator Extinction
-      const atmosGeo = new THREE.SphereGeometry(radius * 1.06, 64, 64);
+      // 3. Atmospheric Outer Fresnel Rayleigh Limb Shader (Additive BackSide)
+      const atmosGeo = new THREE.SphereGeometry(radius * 1.035, 96, 64);
       const atmosMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color(0x5fa8ff) },
+          uPower: { value: 2.8 },
+          uStrength: { value: 1.25 }
+        },
         vertexShader: `
-          varying vec3 vNormal;
-          varying vec3 vPosition;
+          varying vec3 vN;
+          varying vec3 vV;
           void main() {
-            vNormal = normalize(normalMatrix * normal);
-            vPosition = position;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            vec4 mv = modelViewMatrix * vec4(position, 1.0);
+            vN = normalize(normalMatrix * normal);
+            vV = normalize(-mv.xyz);
+            gl_Position = projectionMatrix * mv;
           }
         `,
         fragmentShader: `
-          varying vec3 vNormal;
-          varying vec3 vPosition;
+          uniform vec3 uColor;
+          uniform float uPower;
+          uniform float uStrength;
+          varying vec3 vN;
+          varying vec3 vV;
           void main() {
-            // Fresnel rim intensity
-            float intensity = pow(0.72 - dot(vNormal, vec3(0, 0, 1.0)), 2.4);
-            vec3 blueAtmosphere = vec3(0.22, 0.76, 0.99); // Rayleigh blue
-            vec3 sunsetOrange = vec3(1.0, 0.55, 0.20);    // Sunset terminator glow
-            vec3 finalColor = mix(blueAtmosphere, sunsetOrange, 0.22);
-            gl_FragColor = vec4(finalColor, 1.0) * intensity * 1.8;
+            float f = pow(1.0 - max(dot(vN, vV), 0.0), uPower) * uStrength;
+            gl_FragColor = vec4(uColor, f);
           }
         `,
+        transparent: true,
         blending: THREE.AdditiveBlending,
         side: THREE.BackSide,
-        transparent: true
+        depthWrite: false
       });
       atmosphereMesh = new THREE.Mesh(atmosGeo, atmosMat);
       atmosphereMesh.rotation.z = THREE.MathUtils.degToRad(23.44);
       group.add(atmosphereMesh);
 
-    } else if (planetType === 'moon') {
-      const moonTex = TextureGenerator.createMoonTexture(1024, 512);
-      const moonGeo = new THREE.SphereGeometry(radius, 48, 48);
-      const moonMat = new THREE.MeshStandardMaterial({
-        map: moonTex,
-        roughness: 0.85,
-        metalness: 0.05
+      // 4. Concentric Multilayer Rayleigh Atmospheric Haze Shells
+      [[1.04, 0x7fc6ff, 0.08], [1.08, 0x9ad0ff, 0.05], [1.12, 0xb6c8ff, 0.032], [1.16, 0xc9b6ff, 0.02]].forEach(([rScale, col, op]) => {
+        const sGeo = new THREE.SphereGeometry(radius * rScale, 48, 32);
+        const sMat = new THREE.MeshBasicMaterial({
+          color: col,
+          transparent: true,
+          opacity: op,
+          side: THREE.BackSide,
+          depthWrite: false
+        });
+        const s = new THREE.Mesh(sGeo, sMat);
+        group.add(s);
       });
+
+    } else if (planetType === 'moon') {
+      const moonGeo = new THREE.SphereGeometry(radius, 128, 96);
+      const moonMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        roughness: 0.95,
+        metalness: 0.02
+      });
+      moonMat.map = loadTex('moon.jpg', true, () => TextureGenerator.createMoonTexture(1024, 512));
+      moonMat.bumpMap = loadTex('earth-bump.jpg', false);
+      moonMat.bumpScale = 2.2;
       planetMesh = new THREE.Mesh(moonGeo, moonMat);
       planetMesh.name = 'PlanetMesh';
       group.add(planetMesh);
 
     } else if (planetType === 'mars') {
-      const marsTex = TextureGenerator.createMarsTexture(1024, 512);
-      const marsGeo = new THREE.SphereGeometry(radius, 48, 48);
+      const marsGeo = new THREE.SphereGeometry(radius, 128, 96);
       const marsMat = new THREE.MeshStandardMaterial({
-        map: marsTex,
-        roughness: 0.75,
-        metalness: 0.1
+        color: 0xffffff,
+        roughness: 0.85,
+        metalness: 0.06
       });
+      marsMat.map = loadTex('mars.jpg', true, () => TextureGenerator.createMarsTexture(1024, 512));
+      marsMat.bumpMap = loadTex('earth-bump.jpg', false);
+      marsMat.bumpScale = 1.8;
       planetMesh = new THREE.Mesh(marsGeo, marsMat);
       planetMesh.name = 'PlanetMesh';
       group.add(planetMesh);
 
       // Mars thin reddish atmospheric haze
-      const hazeGeo = new THREE.SphereGeometry(radius * 1.03, 32, 32);
+      const hazeGeo = new THREE.SphereGeometry(radius * 1.025, 48, 32);
       const hazeMat = new THREE.ShaderMaterial({
         vertexShader: `
           varying vec3 vNormal;
@@ -129,7 +185,8 @@ export class Planet3DBuilder {
         `,
         blending: THREE.AdditiveBlending,
         side: THREE.BackSide,
-        transparent: true
+        transparent: true,
+        depthWrite: false
       });
       group.add(new THREE.Mesh(hazeGeo, hazeMat));
 

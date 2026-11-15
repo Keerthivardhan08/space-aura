@@ -37,9 +37,13 @@ export class AssemblyHangar3D {
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: false
+      alpha: false,
+      powerPreference: 'high-performance'
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.15;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -47,7 +51,7 @@ export class AssemblyHangar3D {
     this.scene.background = new THREE.Color(0x050811);
     this.scene.fog = new THREE.FogExp2(0x050811, 0.025);
 
-    this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 150);
+    this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 150);
     this.camera.position.set(3.5, 2.5, 4.5);
 
     this.controls = new OrbitControls(this.camera, this.canvas);

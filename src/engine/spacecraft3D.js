@@ -12,14 +12,50 @@ import { TextureGenerator } from './textures3D.js';
 export class Spacecraft3DBuilder {
   constructor() {
     this.goldTexture = TextureGenerator.createGoldFoilTexture(512);
-    this.solarTexture = TextureGenerator.createSolarCellTexture(512);
 
-    // Realistic Spacecraft Materials
+    // Procedural PBR Silicon Wafer Solar Cells Texture (inspired by Astra Nexus & NASA spacecraft)
+    if (typeof document !== 'undefined') {
+      const solarCanvas = document.createElement('canvas');
+      solarCanvas.width = solarCanvas.height = 512;
+      const sg = solarCanvas.getContext('2d');
+      sg.fillStyle = '#0b1a52';
+      sg.fillRect(0, 0, 512, 512);
+      for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+          const grd = sg.createLinearGradient(x * 64, y * 64, x * 64 + 64, y * 64 + 64);
+          grd.addColorStop(0, '#2a4fb8');
+          grd.addColorStop(0.5, '#1e3a8a');
+          grd.addColorStop(1, '#14307e');
+          sg.fillStyle = grd;
+          sg.fillRect(x * 64 + 3, y * 64 + 3, 58, 58);
+          // Solar cell anti-reflective border
+          sg.strokeStyle = '#38bdf8';
+          sg.lineWidth = 1;
+          sg.strokeRect(x * 64 + 3, y * 64 + 3, 58, 58);
+        }
+      }
+      // Silver grid busbars
+      sg.strokeStyle = 'rgba(215, 230, 255, 0.7)';
+      sg.lineWidth = 2;
+      for (let i = 0; i <= 512; i += 64) {
+        sg.beginPath(); sg.moveTo(i, 0); sg.lineTo(i, 512); sg.stroke();
+        sg.beginPath(); sg.moveTo(0, i); sg.lineTo(512, i); sg.stroke();
+      }
+      this.solarTexture = new THREE.CanvasTexture(solarCanvas);
+      this.solarTexture.colorSpace = THREE.SRGBColorSpace;
+      this.solarTexture.wrapS = this.solarTexture.wrapT = THREE.RepeatWrapping;
+      this.solarTexture.repeat.set(2, 1);
+      this.solarTexture.anisotropy = 8;
+    } else {
+      this.solarTexture = TextureGenerator.createSolarCellTexture(512);
+    }
+
+    // Realistic PBR Spacecraft Materials
     this.goldMLIMaterial = new THREE.MeshStandardMaterial({
-      color: 0xfacc15,
+      color: 0xd4a94e,
       map: this.goldTexture,
-      roughness: 0.35,
-      metalness: 0.85
+      roughness: 0.32,
+      metalness: 0.88
     });
 
     this.silverMLIMaterial = new THREE.MeshStandardMaterial({
@@ -59,10 +95,10 @@ export class Spacecraft3DBuilder {
     });
 
     this.solarMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1e3a8a,
+      color: 0xffffff,
       map: this.solarTexture,
-      roughness: 0.2,
-      metalness: 0.65
+      roughness: 0.35,
+      metalness: 0.3
     });
 
     this.fairingGlassMaterial = new THREE.MeshPhysicalMaterial({
@@ -1481,10 +1517,18 @@ export class Spacecraft3DBuilder {
       group.add(radTile);
 
     } else {
-      // 1.5m Cassegrain Parabolic Reflector Dish Antenna
-      const dishGeo = new THREE.SphereGeometry(0.85, 24, 12, 0, Math.PI * 2, 0, Math.PI / 3);
+      // 1.5m Cassegrain Parabolic Reflector Dish Antenna (Smooth Lathe Geometry)
+      const pts = [];
+      const r = 0.85;
+      const depth = r * 0.35;
+      for (let i = 0; i <= 16; i++) {
+        const x = (i / 16) * r;
+        pts.push(new THREE.Vector2(x, depth * ((x / r) ** 2)));
+      }
+      const dishGeo = new THREE.LatheGeometry(pts, 48);
       dishGeo.rotateX(Math.PI / 2);
       const dish = new THREE.Mesh(dishGeo, this.silverMLIMaterial);
+      dish.material.side = THREE.DoubleSide;
       group.add(dish);
 
       // Tripod Sub-Reflector Support Struts
