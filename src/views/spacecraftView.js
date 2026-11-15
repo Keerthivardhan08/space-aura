@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Spacecraft Modular Blueprint & Subsystems Assembly Visualizer
+ * SPACE-AURA: Spacecraft Modular Blueprint & Subsystems Assembly Visualizer
  * Renders an interactive 2D blueprint of the designed spacecraft with dynamic subsystem callouts
  */
 

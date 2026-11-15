@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Space Mission Architect & Flight Commander
+ * SPACE-AURA: Space Mission Architect & Flight Operations Simulator
  * Main Game Controller
  */
 
@@ -40,6 +40,7 @@ class AstroForgeGame {
     this.activeScreen = 'screen-campaign';
     this.activeSocketTab = 'sensor';
 
+    window.spaceAuraApp = this;
     window.astroforgeApp = this;
   }
 

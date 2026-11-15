@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Scientific Spacecraft Subsystem SVG Blueprints
+ * SPACE-AURA: Scientific Spacecraft Subsystem SVG Blueprints
  * Generates distinct, high-contrast, authentic vector blueprint diagrams
  * for every single spacecraft instrument, sensor, engine, power system, and bus!
  */

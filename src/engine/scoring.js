@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Mission Evaluation & NASA Concept Maturity Level (CML) Scoring Engine
+ * SPACE-AURA: Mission Evaluation & NASA Concept Maturity Level (CML) Scoring Engine
  * Enhanced with Real NASA Analog Mission Matcher (from 'A Learning Game About Telescopes')
  * and CubeSat 101 Compliance (from NASA CSLI)
  */

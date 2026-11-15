@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Operational Mission Simulator & ConOps Engine
+ * SPACE-AURA: Operational Mission Simulator & ConOps Engine
  * Controls launch countdown, orbital propagation, telemetry streaming, dynamic events, and mission evaluation
  */
 

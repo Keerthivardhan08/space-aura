@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: NASA Educational Guide, Official Resources, CML Framework & Mission Systems Engineering
+ * SPACE-AURA: NASA Educational Guide, Official Resources, CML Framework & Mission Systems Engineering
  * Integrated with all 9 Official NASA Space Apps Challenge Resources & Guidelines
  */
 

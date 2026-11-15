@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Procedural High-Fidelity 3D Texture Generator
+ * SPACE-AURA: Procedural High-Fidelity 3D Texture Generator
  * Generates photorealistic planetary textures, cloud layers, night lights, and materials
  * using HTML5 Canvas - 100% self-contained, zero external asset dependencies!
  */

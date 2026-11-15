@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Post-Mission Evaluation & Flight Readiness Certification Report Generator
+ * SPACE-AURA: Post-Mission Evaluation & Flight Readiness Certification Report Generator
  * Enhanced with NASA Analog Mission comparison, CubeSat 101 compliance, and 4-Segment Mapping
  */
 
@@ -16,7 +16,7 @@ export function generateMissionReportHtml(simState, scenario, evaluation) {
         </div>
         <h2>NASA MISSION FLIGHT READINESS & POST-FLIGHT EVALUATION</h2>
         <p class="mission-title">${scenario.title} — [${scenario.badge}]</p>
-        <p class="timestamp">Generated: ${new Date().toUTCString()} | ASTROFORGE ConOps v2.5</p>
+        <p class="timestamp">Generated: ${new Date().toUTCString()} | SPACE-AURA ConOps v2.5</p>
       </div>
 
       <!-- REAL NASA ANALOG MISSION (From 'A Learning Game About Telescopes') -->

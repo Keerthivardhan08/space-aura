@@ -6,7 +6,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 
-def create_astroforge_deck():
+def create_space_aura_deck():
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -65,7 +65,7 @@ def create_astroforge_deck():
         tf = footer_box.text_frame
         tf.margin_left = tf.margin_top = tf.margin_right = tf.margin_bottom = 0
         p = tf.paragraphs[0]
-        p.text = "ASTROFORGE // 2026  •  LIVE GLOBAL DEPLOYMENT: HTTPS://ASTROFORGE-MISSION.SURGE.SH  •  100% CLIENT-SIDE WEBGL (THREE.JS)  •  NASA & ISRO SIMULATOR"
+        p.text = "SPACE-AURA // 2026  •  LIVE GLOBAL DEPLOYMENT: HTTPS://ASTROFORGE-MISSION.SURGE.SH  •  100% CLIENT-SIDE WEBGL (THREE.JS)  •  NASA & ISRO SIMULATOR"
         p.font.name = "Consolas"
         p.font.size = Pt(8.5)
         p.font.color.rgb = RGBColor(100, 116, 139)
@@ -134,7 +134,7 @@ def create_astroforge_deck():
     p.font.color.rgb = C_AMBER
 
     p = tf1.add_paragraph()
-    p.text = "ASTROFORGE"
+    p.text = "SPACE-AURA"
     p.font.name = "Trebuchet MS"
     p.font.size = Pt(36)
     p.font.bold = True
@@ -169,15 +169,15 @@ def create_astroforge_deck():
         p.font.color.rgb = C_TEXT
 
     p = tf1.add_paragraph()
-    p.text = "\nCREW: Sneha • Karishma • Anttariksha • Kshitij  |  Lead Engineer: Keerthivardhan"
+    p.text = "\nNASA SPACE APPS CHALLENGE 2026  |  Lead Architect: Keerthivardhan"
     p.font.name = "Consolas"
     p.font.size = Pt(8.5)
     p.font.color.rgb = C_MUTED
 
     # Hero Image on Right
-    add_image_card(s1, os.path.join(assets_dir, "slide1_orbital_sunrise_hero.png"),
+    add_image_card(s1, os.path.join(assets_dir, "slide1_space_aura_hero.png"),
                    Inches(7.0), Inches(0.6), Inches(5.533), Inches(6.15),
-                   "Figure 1.1: Live Main Webpage — Astra Nexus-Style 3D Orbital Sunrise, Tactical Corner HUD & Mission Pills")
+                   "Figure 1.1: Live Main Webpage — SPACE-AURA 3D Orbital Sunrise, Tactical Corner HUD & Mission Destination Pills")
 
     # ==================== SLIDE 2: 3D REVOLVING SOLAR SYSTEM & ORRERY ====================
     s2 = prs.slides.add_slide(blank_layout)
@@ -223,14 +223,14 @@ def create_astroforge_deck():
         p.font.size = Pt(9.5)
         p.font.color.rgb = C_TEXT if not line.startswith("  ") else C_CYAN
 
-    # Two Stacked Images on Right
-    add_image_card(s2, os.path.join(assets_dir, "slide2_solar_system_orrery.png"),
+    # Two Stacked Images on Right showcasing the Revolving Sun and 3D Solar System
+    add_image_card(s2, os.path.join(assets_dir, "slide2_revolving_sun.png"),
                    Inches(6.9), Inches(1.6), Inches(5.633), Inches(2.45),
-                   "Figure 2.1: Full 3D Revolving Solar System with Orbit Tracks, Sun Corona & Asteroid Belt")
+                   "Figure 2.1: Live In-Engine Revolving Sun with Animated Coronal Noise Shader & Solar Flares")
 
-    add_image_card(s2, os.path.join(assets_dir, "slide7_saturn_rings_mission.png"),
+    add_image_card(s2, os.path.join(assets_dir, "slide2_solar_system_orrery.png"),
                    Inches(6.9), Inches(4.3), Inches(5.633), Inches(2.45),
-                   "Figure 2.2: 1-Click Smooth Camera Focus on Saturn's 3D Ring System & Titan Moon")
+                   "Figure 2.2: Live 3D Revolving Solar System with Orbit Tracks, Asteroid Belt & 8 Keplerian Planets")
 
     # ==================== SLIDE 3: MISSION DESIGN LAB (MDL) ====================
     s3 = prs.slides.add_slide(blank_layout)
@@ -498,9 +498,9 @@ def create_astroforge_deck():
         "Permanent Global Public Deployment:",
         "  • Live URL: https://astroforge-mission.surge.sh",
         "  • Interactive Pitch Deck: https://astroforge-mission.surge.sh/pitch_deck.html",
-        "  • Direct PPTX Download: https://astroforge-mission.surge.sh/ASTROFORGE_NASA_SPACE_APPS_PITCH_DECK.pptx",
+        "  • Direct PPTX Download: https://astroforge-mission.surge.sh/SPACE_AURA_NASA_SPACE_APPS_PITCH_DECK.pptx",
         "GitHub Open-Source Repository:",
-        "  • Repository: https://github.com/Keerthivardhan08/astroforge",
+        "  • Repository: https://github.com/Keerthivardhan08/space-aura",
         "  • Architecture: Pure ES6 modular architecture across 50+ files with full systems engineering math."
     ]
     for line in text_arch:
@@ -511,9 +511,11 @@ def create_astroforge_deck():
         p.font.color.rgb = C_TEXT if not line.startswith("  ") else C_CYAN
 
     # Save presentation
-    output_path = r"d:\space app\ASTROFORGE_NASA_SPACE_APPS_PITCH_DECK.pptx"
+    output_path = r"d:\space app\SPACE_AURA_NASA_SPACE_APPS_PITCH_DECK.pptx"
     prs.save(output_path)
+    # Also save a copy with the legacy filename for backwards compatibility
+    prs.save(r"d:\space app\ASTROFORGE_NASA_SPACE_APPS_PITCH_DECK.pptx")
     print(f"PowerPoint successfully created at: {output_path}")
 
 if __name__ == "__main__":
-    create_astroforge_deck()
+    create_space_aura_deck()

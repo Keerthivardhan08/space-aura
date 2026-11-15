@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: 3D Real-Life Rocket & Spacecraft Engineering Visualizer
+ * SPACE-AURA: 3D Real-Life Rocket & Spacecraft Engineering Visualizer
  * Powered by Three.js
  * Builds real-life multi-stage launch vehicles (SLS, Falcon 9, Vulcan, Electron)
  * with fairing cutaway integration, as well as high-fidelity spacecraft subsystems

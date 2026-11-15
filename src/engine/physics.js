@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Space Mission Systems Engineering Physics Engine
+ * SPACE-AURA: Space Mission Systems Engineering Physics Engine
  * High-fidelity calculations for Mass, Delta-V, Power, Link Budget, and GMAT Orbital Vectors
  */
 

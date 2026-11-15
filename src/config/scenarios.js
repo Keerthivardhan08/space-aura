@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Pre-configured NASA & ISRO Flagship Mission Scenarios & Objectives
+ * SPACE-AURA: Pre-configured NASA & ISRO Flagship Mission Scenarios & Objectives
  * Real-world aerospace systems engineering scenarios for student mission design
  */
 

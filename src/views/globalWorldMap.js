@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Global Launch Sites Tactical World Map
+ * SPACE-AURA: Global Launch Sites Tactical World Map
  * High-Contrast, High-Visibility Interactive 2D Equirectangular World Map
  * with Realistic Continents, Glowing Equator (+465.1 m/s), Earth Rotational
  * Velocity Boost Vectors (v=ωR·cosθ), and Oceanic Launch Safety Azimuths.

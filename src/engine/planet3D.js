@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: 3D Planetary & Celestial Environment Builder
+ * SPACE-AURA: 3D Planetary & Celestial Environment Builder
  * Renders Earth, Moon, Mars, Europa, Jupiter, deep space starfield, and ground stations
  */
 

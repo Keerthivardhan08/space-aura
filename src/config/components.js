@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: NASA Space Mission Design Game
+ * SPACE-AURA: NASA Space Mission Design Game
  * Comprehensive Spacecraft Subsystems, Instruments, Launch Vehicles & Orbits Catalog
  * Enhanced with NASA & Canadian Space Agency (CSA) Partner Resources
  */

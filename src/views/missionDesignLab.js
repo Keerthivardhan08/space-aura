@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: NASA Mission Design Lab (MDL) & 4-Player Collaborative Engineering Room
+ * SPACE-AURA: NASA Mission Design Lab (MDL) & 4-Player Collaborative Engineering Room
  * Simulates NASA Goddard Mission Design Lab / JPL Concurrent Engineering Team
  * Supports Solo Play or up to 4 Collaborative Roles with real-time physics trade-offs,
  * constraint validation, AI specialist feedback, and PDR Go/No-Go consensus voting.

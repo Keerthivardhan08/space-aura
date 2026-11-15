@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Interactive Orbital Physics & Telemetry Canvas Visualizer
+ * SPACE-AURA: Interactive Orbital Physics & Telemetry Canvas Visualizer
  * Enhanced with GMAT Orbital Telemetry (Vis-Viva, Keplerian Elements) & NASA Mission Viz Multi-Angle Camera
  */
 

@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: 4-Player Team Collaboration & AI Specialist Advisor System
+ * SPACE-AURA: 4-Player Team Collaboration & AI Specialist Advisor System
  */
 
 export const TEAM_ROLES = [

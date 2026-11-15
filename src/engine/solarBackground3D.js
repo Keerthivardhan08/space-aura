@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Solar Background 3D Engine
+ * SPACE-AURA: Solar Background 3D Engine
  * Cinematic 3D revolving solar system & orbital sunrise background.
  * Inspired by NASA Space Apps Challenge & Astra Nexus.
  */

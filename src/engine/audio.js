@@ -1,5 +1,5 @@
 /**
- * ASTROFORGE: Web Audio API Mission Control Sound Effects & Telemetry Synthesizer
+ * SPACE-AURA: Web Audio API Mission Control Sound Effects & Telemetry Synthesizer
  * Zero external audio files required - 100% procedurally synthesized in real time!
  */
 
