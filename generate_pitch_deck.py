@@ -174,10 +174,14 @@ def create_space_aura_deck():
     p.font.size = Pt(8.5)
     p.font.color.rgb = C_MUTED
 
-    # Hero Image on Right
+    # Two Stacked High-Res Images on Right
     add_image_card(s1, os.path.join(assets_dir, "slide1_space_aura_hero.png"),
-                   Inches(7.0), Inches(0.6), Inches(5.533), Inches(6.15),
-                   "Figure 1.1: Live Main Webpage — SPACE-AURA 3D Orbital Sunrise, Tactical Corner HUD & Mission Destination Pills")
+                   Inches(6.9), Inches(0.6), Inches(5.633), Inches(2.85),
+                   "Figure 1.1: Live Production Webpage — SPACE-AURA 3D Revolving Sun, Earth Halo & Saturn Rings")
+
+    add_image_card(s1, os.path.join(assets_dir, "slide6_flight_arena_cockpit.png"),
+                   Inches(6.9), Inches(3.85), Inches(5.633), Inches(2.85),
+                   "Figure 1.2: 60 FPS 3D Orbital Flight Operations with Real-Time HUD & Solar Compass")
 
     # ==================== SLIDE 2: 3D REVOLVING SOLAR SYSTEM & ORRERY ====================
     s2 = prs.slides.add_slide(blank_layout)
@@ -224,13 +228,13 @@ def create_space_aura_deck():
         p.font.color.rgb = C_TEXT if not line.startswith("  ") else C_CYAN
 
     # Two Stacked Images on Right showcasing the Revolving Sun and 3D Solar System
-    add_image_card(s2, os.path.join(assets_dir, "slide2_revolving_sun.png"),
+    add_image_card(s2, os.path.join(assets_dir, "user_live_browser_hero.png"),
                    Inches(6.9), Inches(1.6), Inches(5.633), Inches(2.45),
-                   "Figure 2.1: Live In-Engine Revolving Sun with Animated Coronal Noise Shader & Solar Flares")
+                   "Figure 2.1: Live Production Webpage — 3D Revolving Sun, Planetary Orbits & Earth Halo")
 
-    add_image_card(s2, os.path.join(assets_dir, "slide2_solar_system_orrery.png"),
+    add_image_card(s2, os.path.join(assets_dir, "slide2_revolving_sun.png"),
                    Inches(6.9), Inches(4.3), Inches(5.633), Inches(2.45),
-                   "Figure 2.2: Live 3D Revolving Solar System with Orbit Tracks, Asteroid Belt & 8 Keplerian Planets")
+                   "Figure 2.2: Live In-Engine Revolving Sun with Dynamic Coronal Noise Shader & Solar Flares")
 
     # ==================== SLIDE 3: MISSION DESIGN LAB (MDL) ====================
     s3 = prs.slides.add_slide(blank_layout)
